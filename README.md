@@ -49,6 +49,32 @@ Alternative for : Oriental Salad (Nutrition grade : E)
 
 ==> Taboulé Bio (nutrition grade : B), findable at Monoprix
 Follow this link for more information on this product : https://world.openfoodfacts.org/product/3248654098609
+
+Would you like to save this search for later consulting ? 
+Yes(Y) or No (N)
 ```
+If you want to save your search, you can by pressing "y" and enter. Whatever choice you make, you will be redirected to the initial choice.
 
 ### 2. History mode
+By pressing "2" and hitting enter, you enter the "History mode". Your search history will be displayed, from the
+most recent search until the oldest.
+```
++----+----------+-----------------------------------+----------------------------------------------+
+| N° |Date      |Product Name                       |  Substitute                                  |
++----+----------+-----------------------------------+----------------------------------------------+
+| 1  |11-01-2018|Oriental Salad                     | Taboulé Bio                                  |
+| 2  |24-12-2017|Southwest Salad                    | Coleslaw                                     |
+| 3  |15-12-2017|New potato, tomato & egg salad     | Salade césar                                 |
+```
+By entering the number and pressing enter, you will access to details about your search and the substitute.
+```
+Alternative for : Oriental Salad (Nutrition grade : E)
+Search date : 11-01-2018
+
+==> Taboulé Bio (nutrition grade : B), findable at Monoprix
+Follow this link for more information on this product : https://world.openfoodfacts.org/product/3248654098609
+
+Would you like to keep this search saved ? 
+Yes(Y) or No(N)
+```
+You can delete your saved search if you don't want it anymore by pressing "N" and enter, or keep it stored by pressing "Y" and enter.*
