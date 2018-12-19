@@ -6,7 +6,7 @@ AltR first displays an two choices, you can either find a new product to replace
 1 -> Select a new product
 2 -> Browse my products
 ```
-###1. Browse mode
+### 1. Browse mode
 By pressing "1" and hitting enter, you enter the "browse mode". AltR will display numerous category.
 ```
 Category :
@@ -42,7 +42,7 @@ A list of products will be displayed :
 ```` 
 All you have to do is to choose your product from the list, by pressing the corresponding number and hitting enter. **You can only choose one here**
 
-Once selected, the program will give you the best alternative there is to your product, regarding the nutrition grade.
+Once a product is selected, the program will give you the best alternative there is to your product, regarding the nutrition grade.
 ```
 Alternative for : Oriental Salad (Nutrition grade : E)
 
@@ -50,4 +50,4 @@ Alternative for : Oriental Salad (Nutrition grade : E)
 Follow this link for more information on this product : https://world.openfoodfacts.org/product/3248654098609
 ```
 
-###2. History mode
+### 2. History mode
