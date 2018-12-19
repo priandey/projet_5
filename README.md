@@ -3,8 +3,8 @@ AltR is a free command line client which provide you an easy way to find healthy
 ## How to...
 AltR first displays an two choices, you can either find a new product to replace, or browse your search history.
 ```
-1 -> Select a new product
-2 -> Browse my products
+1 -> Browse products
+2 -> My search history
 ```
 ### 1. Browse mode
 By pressing "1" and hitting enter, you enter the "browse mode". AltR will display numerous category.
@@ -40,7 +40,8 @@ A list of products will be displayed :
 | 9  | Salade mexicaine au thon                                                               |
 +----+----------------------------------------------------------------------------------------+
 ```` 
-All you have to do is to choose your product from the list, by pressing the corresponding number and hitting enter. **You can only choose one here**
+All you have to do is to choose your product from the list, by pressing the corresponding number and hitting enter. 
+**You can only choose one option here**
 
 Once a product is selected, the program will give you the best alternative there is to your product, regarding the nutrition grade.
 ```
