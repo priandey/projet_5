@@ -15,6 +15,7 @@ Category :
 3. Meals
 4. Crackers
 5. Vienna bread
+6. Salad
 ...
 ```
 You can choose one or more, using following syntax :
