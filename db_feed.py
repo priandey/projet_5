@@ -3,7 +3,7 @@ import mysql.connector
 
 db_config = {
     'user' :'root',
-    'password' : 'pitour',
+    'password' : '',
     'host' : 'localhost',
     'database' : 'drop_test'}
 cnx = mysql.connector.connect(**db_config)
