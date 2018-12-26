@@ -1,5 +1,8 @@
 DROP DATABASE IF EXISTS OpenFoodFacts;
 
+CREATE USER 'off_admin' IDENTIFIED BY 'goodfood';
+GRANT ALL PRIVILEGES ON OpenFoodFacts TO 'off_admin'@'localhost';
+
 CREATE DATABASE OpenFoodFacts CHARACTER SET 'utf8';
 
 USE OpenFoodFacts;
