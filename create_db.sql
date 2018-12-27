@@ -2,16 +2,16 @@ DROP DATABASE IF EXISTS OpenFoodFacts;
 
 CREATE DATABASE OpenFoodFacts CHARACTER SET 'utf8';
 
-CREATE USER 'off_admin' IDENTIFIED BY 'goodfood';
-GRANT ALL PRIVILEGES ON OpenFoodFacts TO 'off_admin'@'localhost';
-
 USE OpenFoodFacts;
+
+CREATE USER 'off_admin'@'localhost' IDENTIFIED BY 'goodfood';
+GRANT ALL PRIVILEGES ON OpenFoodFacts TO 'off_admin'@'localhost';
 
 CREATE TABLE product (
   product_id int UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   product_name varchar(150) NOT NULL,
   nutrition_grade char(1) NOT NULL,
-  product_url varchar(150) NOT NULL,
+  product_url TINYTEXT NOT NULL,
   product_category varchar(100) NOT NULL
 ) ENGINE=InnoDB;
 

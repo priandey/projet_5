@@ -2,19 +2,20 @@ import requests
 import mysql.connector
 
 db_config = {
-    'user' :'off_admin',
-    'password' : 'goodfood',
+    'user' :'*********',
+    'password' : '******',
     'host' : 'localhost',
-    'database' : 'drop_test'}
+    'database' : 'OpenFoodFacts'}
 cnx = mysql.connector.connect(**db_config)
 cursor = cnx.cursor()
-drop_table = ("DROP TABLE IF EXISTS nutrition_2;")
-create_table = ("CREATE TABLE nutrition_2(product_name VARCHAR(150) NOT NULL,nutrition_grades CHAR(1) NOT NULL, category_name VARCHAR(150) NOT NULL,product_id MEDIUMINT AUTO_INCREMENT NOT NULL PRIMARY KEY);")
-cursor.execute(drop_table)
-cursor.execute(create_table)
+#drop_table = ("DROP TABLE IF EXISTS nutrition_2;")
+#create_table = ("CREATE TABLE nutrition_2(product_name VARCHAR(150) NOT NULL,nutrition_grades CHAR(1) NOT NULL, category_name VARCHAR(150) NOT NULL,product_id MEDIUMINT AUTO_INCREMENT NOT NULL PRIMARY KEY);")
+#cursor.execute(drop_table)
+#cursor.execute(create_table)
 page = 1
 request_scope = int(input("Number of page you wish to ask (100 entry/page) :"))
-while page < 7:
+request_scope += 1
+while page < request_scope:
     print(page)
     str_page = str(page)
     page += 1
@@ -32,13 +33,14 @@ while page < 7:
 
 
 
-    for i in json['products']:
+    for product in json['products']:
+        print("processing")
         try:
-            add_product = ("INSERT INTO nutrition_2 "
-                           "(product_name,nutrition_grades, category_name)"
-                           "VALUES (%s, %s, %s)")
+            add_product = ("INSERT INTO product "
+                           "(product_name,nutrition_grade, product_category, product_url)"
+                           "VALUES (%s, %s, %s, %s)")
 
-            data_product = (i['product_name'], i['nutrition_grades'], i["categories_tags"][1][3:])
+            data_product = (product['product_name'], product['nutrition_grades'], product['categories_tags'][1][3:], product['url'])
 
             cursor.execute(add_product,data_product)
             cnx.commit()
