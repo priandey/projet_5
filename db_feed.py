@@ -2,8 +2,8 @@ import requests
 import mysql.connector
 
 db_config = {
-    'user' :'*********',
-    'password' : '******',
+    'user' :'off_admin',
+    'password' : 'goodfood',
     'host' : 'localhost',
     'database' : 'OpenFoodFacts'}
 cnx = mysql.connector.connect(**db_config)
