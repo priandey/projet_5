@@ -1,3 +1,4 @@
+DROP USER IF EXISTS off_admin;
 CREATE USER 'off_admin'@'%' IDENTIFIED BY 'goodfood';
 
 DROP DATABASE IF EXISTS OpenFoodFacts;
@@ -6,7 +7,7 @@ CREATE DATABASE OpenFoodFacts CHARACTER SET 'utf8';
 
 USE OpenFoodFacts;
 
-GRANT ALL PRIVILEGES ON OpenFoodFacts TO 'off_admin'@'%' WITH GRANT OPTION;
+GRANT ALL ON OpenFoodFacts.* TO 'off_admin'@'%';
 
 CREATE TABLE product (
   product_id int UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
