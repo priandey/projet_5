@@ -34,13 +34,13 @@ CREATE TABLE product_category(
 
 CREATE TABLE user_history(
   search_id MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  product_searched INT UNSIGNED NOT NULL,
-  product_found INT UNSIGNED NOT NULL,
+  selected_product INT UNSIGNED NOT NULL,
+  substitute INT UNSIGNED NOT NULL,
   search_date DATETIME NOT NULL,
   CONSTRAINT fk_product_searched
-    FOREIGN KEY (product_searched)
+    FOREIGN KEY (selected_product)
     REFERENCES product(product_id),
   CONSTRAINT fk_product_found
-    FOREIGN KEY (product_found)
+    FOREIGN KEY (substitute)
     REFERENCES product(product_id)
 ) ENGINE=InnoDB;

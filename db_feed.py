@@ -28,20 +28,20 @@ while page < request_scope:
                'json':'1',
                'page_size':'100',
                'page': str_page}
+               
     brands = requests.get('https://fr.openfoodfacts.org/cgi/search.pl', params=payload)
     json = brands.json()
 
 
 
     for product in json['products']:
-        print("processing")
         try:
             add_product = ("INSERT INTO product "
                            "(product_name,nutrition_grade, product_category, product_url)"
                            "VALUES (%s, %s, %s, %s)")
 
             data_product = (product['product_name'], product['nutrition_grades'], product['categories_tags'][1][3:], product['url'])
-
+            print("{} ({}), cat:{}, url: {}".format(product['product_name'], product['nutrition_grades'], product['categories_tags'][1][3:], product['url']))
             cursor.execute(add_product,data_product)
             cnx.commit()
         except KeyError:
