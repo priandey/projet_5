@@ -1,5 +1,6 @@
 import requests
 import mysql.connector
+import json
 
 db_config = {
     'user' :'off_admin',
@@ -26,15 +27,16 @@ while page < request_scope:
                'tag_0':'fr',
                'sort_by':'unique_scans_n',
                'json':'1',
-               'page_size':'100',
+               'page_size':'1000',
                'page': str_page}
-               
+
     brands = requests.get('https://fr.openfoodfacts.org/cgi/search.pl', params=payload)
-    json = brands.json()
+    json_file = brands.json()
 
+    with open("off_local_file.json", "w") as file : #Need a debug
+        json.dump(json_file,file)
 
-
-    for product in json['products']:
+    for product in json_file['products']:
         try:
             add_product = ("INSERT INTO product "
                            "(product_name,nutrition_grade, product_category, product_url)"
