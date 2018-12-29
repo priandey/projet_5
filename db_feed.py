@@ -14,44 +14,53 @@ cursor = cnx.cursor()
 #cursor.execute(drop_table)
 #cursor.execute(create_table)
 page = 1
-request_scope = int(input("Number of page you wish to ask (100 entry/page) :"))
-request_scope += 1
-while page < request_scope:
-    print(page)
+#request_scope = int(input("Number of page you wish to ask (100 entry/page) :"))
+#request_scope += 1
+while page < 2:
+
     str_page = str(page)
     page += 1
-    #try:
-    payload = {'action':'process',
-               'tagtype_0':'languages',
-               'tag_contains_0':'contains',
-               'tag_0':'fr',
-               'sort_by':'unique_scans_n',
-               'json':'1',
-               'page_size':'1000',
-               'page': str_page}
 
-    brands = requests.get('https://fr.openfoodfacts.org/cgi/search.pl', params=payload)
-    json_file = brands.json()
+    try:
+        print("Looking for cached data")
+        with open("resources/off_local_file.json", "r") as file:
+            product_file = json.load(file)
 
-    with open("off_local_file.json", "w") as file : #Need a debug
-        json.dump(json_file,file)
+    except FileNotFoundError:
+        print("Requesting page {}...".format(page))
+        payload = {'action':'process',
+                   'tagtype_0':'languages',
+                   'tag_contains_0':'contains',
+                   'tag_0':'fr',
+                   'sort_by':'unique_scans_n',
+                   'json':'1',
+                   'page_size':'1000',
+                   'page': '2'}
 
-    for product in json_file['products']:
+        brands = requests.get('https://fr.openfoodfacts.org/cgi/search.pl', params=payload)
+        json_file = brands.json()
+
+        print("Successfull API Request")
+
+        with open("resources/off_local_file.json", "a") as file : #Need a debug
+            json.dump(json_file,file)
+        with open("resources/off_local_file.json", "r") as file:
+            product_file = json.load(file)
+        print("Request output saved to file")
+
+    for product in product_file['products']:
         try:
             add_product = ("INSERT INTO product "
                            "(product_name,nutrition_grade, product_category, product_url)"
                            "VALUES (%s, %s, %s, %s)")
 
-            data_product = (product['product_name'], product['nutrition_grades'], product['categories_tags'][1][3:], product['url'])
-            print("{} ({}), cat:{}, url: {}".format(product['product_name'], product['nutrition_grades'], product['categories_tags'][1][3:], product['url']))
+            data_product = (product['product_name'], product['nutrition_grades'], product['categories_tags'][0][3:], product['url'])
+            print("{} ({}), cat:{}, url: {}".format(product['product_name'], product['nutrition_grades'], product['categories_tags'][0][3:], product['url']))
             cursor.execute(add_product,data_product)
             cnx.commit()
         except KeyError:
             print("KeyError")
             continue
-    #except:
-    #    print("Error in API request")
-    #    break
 
 cursor.close()
 cnx.close()
