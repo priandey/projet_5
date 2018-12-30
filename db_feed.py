@@ -44,7 +44,9 @@ if assert_cache() is True :
     json_file_list = load_cache("resources/")
 
 else :
-    while page <= 3:
+    request_scope = int(input("Number of page you wish to ask (100 entry/page) :"))
+    request_scope += 1
+    while page <= request_scope:
         str_page = str(page)
         print("Requesting page {}...".format(page))
         payload = {'action':'process',
@@ -53,7 +55,7 @@ else :
                    'tag_0':'fr',
                    'sort_by':'unique_scans_n',
                    'json':'1',
-                   'page_size':'50',
+                   'page_size':'100',
                    'page': str_page}
         page += 1
         brands = requests.get('https://fr.openfoodfacts.org/cgi/search.pl', params=payload)
@@ -63,7 +65,7 @@ else :
 
         with open("resources/off_p{}_local_file.json".format(str_page), "w") as file :
             json.dump(json_file,file)
-        print("Request output saved to file")
+        print("Request output dumped in file")
 
     json_file_list = load_cache("resources/")
 
