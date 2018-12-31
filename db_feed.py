@@ -69,21 +69,36 @@ else :
 
     json_file_list = load_cache("resources/")
 
+all_category = list()
+product_category = list()
 
 for product_file in json_file_list:
     for product in product_file['products']:
         try:
             add_product = ("INSERT INTO product "
-                           "(product_name,nutrition_grade, product_category, product_url)"
-                           "VALUES (%s, %s, %s, %s)")
+                           "(product_name,nutrition_grade, product_url)"
+                           "VALUES (%s, %s, %s)")
 
-            data_product = (product['product_name'], product['nutrition_grades'], product['categories_tags'][0][3:], product['url'])
-            print("{} ({}), cat:{}, url: {}".format(product['product_name'], product['nutrition_grades'], product['categories_tags'][0][3:], product['url']))
+            data_product = (product['product_name'], product['nutrition_grades'], product['url'])
+            #print("{} ({}), url: {}".format(product['product_name'], product['nutrition_grades'], product['url']))
             cursor.execute(add_product,data_product)
-            cnx.commit()
+
+            for category in product['categories_tags']: #Saving tuple product/category for product_category table
+                product_category.append((product['url'],category[3:]))
+                if category[3:] not in all_category:
+                        all_category.append(category[3:])
         except KeyError:
-            print("KeyError")
+            print("<< Product incomplete >>")
             continue
 
+for category in all_category:
+    #print(category)
+    cursor.execute("INSERT INTO category (category_name) VALUES ('{}')".format(category))
+
+for association in product_category :
+    #print(association)
+    cursor.execute("INSERT INTO product_category (product_url, category_name) VALUES ('{}', '{}')".format(association[0], association[1]))
+
+cnx.commit()
 cursor.close()
 cnx.close()
