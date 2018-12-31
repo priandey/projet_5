@@ -23,9 +23,10 @@ def assert_cache():
     if len(file_available) == 0:
         return False
     else :
-        return True
+        return True,len(file_available)
 
 def load_cache(dir):
+    print("Loading cache files")
     file_available = list()
     files_output = list()
     with os.scandir(dir) as filelist:
@@ -33,13 +34,13 @@ def load_cache(dir):
             if entry.is_file():
                 file_available.append(entry.name)
     for file in file_available:
-        print("{}{}".format(dir,file))
+        #print("{}{}".format(dir,file))
         with open("{}{}".format(dir,file), "r") as current_file:
             output = json.load(current_file)
             files_output.append(output)
     return files_output
 
-if assert_cache() is True :
+if assert_cache()[0] is True :
     print("Looking for cached data")
     json_file_list = load_cache("resources/")
 
@@ -65,13 +66,14 @@ else :
 
         with open("resources/off_p{}_local_file.json".format(str_page), "w") as file :
             json.dump(json_file,file)
-        print("Request output dumped in file")
+        print("Request output dumped in cache file")
 
     json_file_list = load_cache("resources/")
 
 all_category = list()
 product_category = list()
-
+product_incomplete = 0
+print("Inserting {} products in db...".format(assert_cache()[1]*100))
 for product_file in json_file_list:
     for product in product_file['products']:
         try:
@@ -88,7 +90,8 @@ for product_file in json_file_list:
                 if category[3:] not in all_category:
                         all_category.append(category[3:])
         except KeyError:
-            print("<< Product incomplete >>")
+            #print("<< Product incomplete >>")
+            product_incomplete += 1
             continue
 
 for category in all_category:
@@ -98,6 +101,8 @@ for category in all_category:
 for association in product_category :
     #print(association)
     cursor.execute("INSERT INTO product_category (product_url, category_name) VALUES ('{}', '{}')".format(association[0], association[1]))
+
+print("{} products added to db \n{} products were not added to db. Cause : incomplete".format(assert_cache()[1]*100-product_incomplete,product_incomplete))
 
 cnx.commit()
 cursor.close()
