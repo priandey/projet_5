@@ -38,5 +38,7 @@ produit = Product(product_name = "MAchin", nutrition_grade = "b", product_url = 
 #session.add(produit)
 #session.commit()
 
-for product in session.query(Product):
-    print(product.product_name, product.product_url, product.nutrition_grade)
+for category in session.query(Category):
+    print(category.category_name)
+
+print("\n{} categories found".format(session.query(Category).count()))

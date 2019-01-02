@@ -85,9 +85,9 @@ for product_file in json_file_list:
             cursor.execute(add_product,data_product)
 
             for category in product['categories_tags']: #Saving tuple product/category for product_category table
-                product_category.append((product['url'],category[3:]))
-                if category[3:] not in all_category:
-                        all_category.append(category[3:])
+                product_category.append((product['url'],category[3:].replace("-", " ").capitalize()))
+                if category[3:].replace("-", " ").capitalize() not in all_category:
+                        all_category.append(category[3:].replace("-", " ").capitalize())
         except KeyError:
             #print("<< Product incomplete >>")
             product_incomplete += 1
