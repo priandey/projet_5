@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 mysql-connector-python = "*"
 requests = "*"
+sqlalchemy = "==1.3.0b1"
+pymysql = "*"
 
 [requires]
 python_version = "3.7"

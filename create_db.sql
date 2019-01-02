@@ -20,6 +20,7 @@ CREATE TABLE category (
 ) ENGINE=InnoDB;
 
 CREATE TABLE product_category(
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   product_url VARCHAR(250) NOT NULL,
   category_name varchar(100) NOT NULL,
   CONSTRAINT fk_product
@@ -34,7 +35,7 @@ CREATE TABLE user_history(
   search_id MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   selected_product VARCHAR(250) NOT NULL,
   substitute VARCHAR(250) NOT NULL,
-  search_date DATETIME NOT NULL,
+  created_at DATETIME NOT NULL,
   CONSTRAINT fk_product_searched
     FOREIGN KEY (selected_product)
     REFERENCES product(product_url),

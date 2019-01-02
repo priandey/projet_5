@@ -12,8 +12,7 @@ cnx = mysql.connector.connect(**db_config)
 cursor = cnx.cursor()
 
 page = 1
-#request_scope = int(input("Number of page you wish to ask (100 entry/page) :"))
-#request_scope += 1
+
 def assert_cache():
     file_available = list()
     with os.scandir("resources/") as filelist:
@@ -23,7 +22,7 @@ def assert_cache():
     if len(file_available) == 0:
         return False
     else :
-        return True,len(file_available)
+        return True, len(file_available)
 
 def load_cache(dir):
     print("Loading cache files")
