@@ -13,11 +13,22 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-PRODUCT_CATEGORY = Table('product_category', Base.metadata,
+'''PRODUCT_CATEGORY = Table('product_category', Base.metadata,
                          Column('product_url', ForeignKey('product.product_url'), primary_key=True),
                          Column('category_name', ForeignKey('category.category_name'),
-                                primary_key=True)
-                         )
+                                primary_key=True)'''
+
+class ProductCategory(Base):
+    '''mapped class of table product_category'''
+    __tablename__ = 'product_category'
+    product_url = Column(String, ForeignKey('product.product_url'), primary_key=True)
+    category_name = Column(String, ForeignKey('category.category_name'), primary_key=True)
+
+    product = relationship('Product', back_populates='category')
+    category = relationship('Category', back_populates='product')
+
+    def __repr__(self):
+        return '{} => {}'.format(self.product.product_name, self.category_name)
 
 class Product(Base):
     '''Mapped class of table product'''
@@ -25,9 +36,7 @@ class Product(Base):
     product_name = Column(String)
     nutrition_grade = Column(String)
     product_url = Column(String, primary_key=True)
-    category = relationship('Category',
-                            secondary=PRODUCT_CATEGORY,
-                            back_populates='product')
+    category = relationship('ProductCategory', back_populates='product')
     def __repr__(self):
         return self.product_name
 
@@ -35,9 +44,8 @@ class Category(Base):
     '''Mapped class of table category'''
     __tablename__ = 'category'
     category_name = Column(String, primary_key=True)
-    product = relationship('Product',
-                           secondary=PRODUCT_CATEGORY,
-                           back_populates='category')
+    product = relationship('ProductCategory', back_populates='category')
+
     def __repr__(self):
         return self.category_name
 
@@ -52,7 +60,7 @@ class SessionManager():
     '''Instances of this class will hold an engine and a session binded to it,
     it can manage adding, committing and querying db'''
 
-    def __init__(self,engine='mysql+pymysql://off_admin:goodfood@localhost/OpenFoodFacts'):
+    def __init__(self, engine='mysql+pymysql://off_admin:goodfood@localhost/OpenFoodFacts'):
         self.engine = create_engine(engine)
         makesession = sessionmaker(bind=self.engine)
         self.session = makesession()
@@ -68,6 +76,44 @@ class SessionManager():
         for entry in self.session.query(queried):
             output_list.append(entry)
         return output_list
+
+    def commit_cache(self, cache):
+        if cache.assert_cache:
+            all_category = list()
+            product_category = list()
+            product_incomplete = 0
+            for product_file in cache.load_cache():
+                for entry in product_file['products']:
+                    try:
+                        product = Product(product_name=entry['product_name'],
+                                          nutrition_grade=entry['nutrition_grades'],
+                                          product_url=entry['url']
+                                          )
+                        self.append(product)
+
+                        for category in entry['categories_tags']:
+                            #Saving tuple product/category for product_category table
+                            to_add = ProductCategory(product_url=entry['url'],
+                                                     category_name=category[3:].replace("-", " ")
+                                                     .capitalize())
+                            self.append(to_add)
+                            if category[3:].replace("-", " ").capitalize() not in all_category:
+                               all_category.append(category[3:].replace("-", " ").capitalize())
+                    except KeyError:
+                        product_incomplete += 1
+                        continue
+
+            for entry in all_category:
+                category = Category(category_name=entry)
+                self.append(category)
+            self.commit()
+            for product in self.query(Product):
+                print("{}\n".format(product.category))
+
+
+        else:
+            print('No file in cache, please download data')
+
 '''----------------------API Related Class-----------------------------------'''
 
 class ApiQuery():
@@ -129,7 +175,7 @@ class CacheManager():
         print("Loading cached files")
         files_output = list()
         for file in self.file_available:
-            print("{}{}".format(self.cache_dir, file))
+            # print("{}{}".format(self.cache_dir, file))
             with open("{}{}".format(self.cache_dir, file), "r") as current_file:
                 output = json.load(current_file)
                 files_output.append(output)
