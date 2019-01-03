@@ -27,8 +27,6 @@ class Product(Base):
                             back_populates='product')
     def __repr__(self):
         return self.product_name
-#    def __repr__(self):
-#        return "<Product(product_name='%s', nutrition_grade='%s', product_url='%s')>" % (self.product_name, self.nutrition_grade, self.product_url)
 
 class Category(Base):
     __tablename__ = 'category'
@@ -39,11 +37,6 @@ class Category(Base):
     def __repr__(self):
         return self.category_name
 
-'''class ProductCategory(Base):
-    __tablename__ = 'product_category'
-    id = Column(Integer, primary_key=True)
-    product_url = Column(String, ForeignKey('product.product_url'))
-    category_name = Column(String, ForeignKey('category.category_name'))'''
 
 class UserHistory(Base):
     __tablename__ = 'user_history'
