@@ -4,19 +4,20 @@ import os
 
 import requests
 from sqlalchemy import create_engine
-from sqlalchemy import ForeignKey, Column, Integer, String, Table
+from sqlalchemy import ForeignKey, Column, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-'''----------------------ORM Related Class-----------------------------------'''
+#----------------------ORM Related Class-----------------------------------
 
 Base = declarative_base()
 
 '''PRODUCT_CATEGORY = Table('product_category', Base.metadata,
                          Column('product_url', ForeignKey('product.product_url'), primary_key=True),
                          Column('category_name', ForeignKey('category.category_name'),
-                                primary_key=True)'''
+                                primary_key=True)
+                             )'''
 
 class ProductCategory(Base):
     '''mapped class of table product_category'''
@@ -66,21 +67,24 @@ class SessionManager():
         self.session = makesession()
 
     def append(self, entry):
+        '''Add entry to queue'''
         self.session.add(entry)
 
     def commit(self):
+        '''commit queue'''
         self.session.commit()
 
     def query(self, queried):
+        '''return a list of entry from queried mapped object'''
         output_list = list()
         for entry in self.session.query(queried):
             output_list.append(entry)
         return output_list
 
     def commit_cache(self, cache):
+        '''Upload cache-loaded content to db'''
         if cache.assert_cache:
             all_category = list()
-            product_category = list()
             product_incomplete = 0
             for product_file in cache.load_cache():
                 for entry in product_file['products']:
@@ -92,13 +96,12 @@ class SessionManager():
                         self.append(product)
 
                         for category in entry['categories_tags']:
-                            #Saving tuple product/category for product_category table
-                            to_add = ProductCategory(product_url=entry['url'],
+                            product_category = ProductCategory(product_url=entry['url'],
                                                      category_name=category[3:].replace("-", " ")
                                                      .capitalize())
-                            self.append(to_add)
+                            self.append(product_category)
                             if category[3:].replace("-", " ").capitalize() not in all_category:
-                               all_category.append(category[3:].replace("-", " ").capitalize())
+                                all_category.append(category[3:].replace("-", " ").capitalize())
                     except KeyError:
                         product_incomplete += 1
                         continue
@@ -114,7 +117,7 @@ class SessionManager():
         else:
             print('No file in cache, please download data')
 
-'''----------------------API Related Class-----------------------------------'''
+#----------------------API Related Class-----------------------------------
 
 class ApiQuery():
     '''Class managing API queries'''
@@ -147,7 +150,7 @@ class ApiQuery():
                 json.dump(json_output, file)
             print("Request output dumped in file")
 
-'''----------------------Cache Related Class-----------------------------------'''
+#----------------------Cache Related Class-----------------------------------
 
 class CacheManager():
     '''A cache manager'''

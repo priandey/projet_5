@@ -1,8 +1,8 @@
 import models as m
 
 def main():
-    db = m.SessionManager()
+    database = m.SessionManager()
     cache = m.CacheManager()
-    db.commit_cache(cache)
+    database.commit_cache(cache)
 
 main()
