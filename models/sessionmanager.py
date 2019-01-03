@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .entity import *
+from .entities import Product, Category, ProductCategory, UserHistory
 
 class SessionManager():
     '''Instances of this class will hold an engine and a session binded to it,

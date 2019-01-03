@@ -1,6 +1,5 @@
 import json
 import os
-from .entity import *
 
 class CacheManager():
     '''A cache manager'''

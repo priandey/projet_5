@@ -1,6 +1,4 @@
-orm_test.py
-models.py
-venv/
 .idea/
 __pycache__/
 resources/
+TrashCode/
