@@ -27,9 +27,9 @@ class CacheManager():
         print("Loading cached files")
         files_output = list()
         for file in self.file_available:
-            # print("{}{}".format(self.cache_dir, file))
             with open("{}{}".format(self.cache_dir, file), "r") as current_file:
                 output = json.load(current_file)
                 files_output.append(output)
+            print("{}{}".format(self.cache_dir, file))
 
         return files_output

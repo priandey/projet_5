@@ -18,7 +18,7 @@ class Product(Base):
     __tablename__ = 'product'
     product_name = Column(String)
     nutrition_grade = Column(String)
-    product_url = Column(String, primary_key=True)
+    product_url = Column(String, primary_key=True, unique=True)
     category = relationship('ProductCategory', back_populates='product')
     def __repr__(self):
         return self.product_name
@@ -32,8 +32,6 @@ class ProductCategory(Base):
     product = relationship('Product', back_populates='category')
     category = relationship('Category', back_populates='product')
 
-    def __repr__(self):
-        return '{} => {}'.format(self.product.product_name, self.category_name)
 
 class UserHistory(Base):
     '''Mapped class of table user_history'''

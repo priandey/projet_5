@@ -21,18 +21,20 @@ class SessionManager():
 
     def query(self, queried):
         '''return a list of entry from queried mapped object'''
-        output_list = list()
-        for entry in self.session.query(queried):
-            output_list.append(entry)
-        return output_list
+        return self.session.query(queried)
 
     def commit_cache(self, cache):
         '''Upload cache-loaded content to db'''
         if cache.assert_cache:
             all_category = list()
+            appended_product = list()
             product_incomplete = 0
             for product_file in cache.load_cache():
                 for entry in product_file['products']:
+                    if entry in appended_product:
+                        continue
+                    else :
+                        appended_product.append(entry)
                     try:
                         product = Product(product_name=entry['product_name'],
                                           nutrition_grade=entry['nutrition_grades'],
@@ -40,13 +42,15 @@ class SessionManager():
                                           )
                         self.append(product)
 
-                        for category in entry['categories_tags']:
-                            product_category = ProductCategory(product_url=entry['url'],
-                                                     category_name=category[3:].replace("-", " ")
-                                                     .capitalize())
-                            self.append(product_category)
-                            if category[3:].replace("-", " ").capitalize() not in all_category:
-                                all_category.append(category[3:].replace("-", " ").capitalize())
+                        category = entry['categories_hierarchy'][0][3:].replace("-", " ")
+
+                        product_category = ProductCategory(product_url=entry['url'],
+                                                       category_name=category
+                                                       .capitalize()
+                                                       )
+                        self.append(product_category)
+                        if category not in all_category:
+                            all_category.append(category)
                     except KeyError:
                         product_incomplete += 1
                         continue
@@ -54,7 +58,14 @@ class SessionManager():
             for entry in all_category:
                 category = Category(category_name=entry)
                 self.append(category)
+            print("Committing to db...")
             self.commit()
 
         else:
             print('No file in cache, please download data')
+
+    def products_of_cat(self):
+        '''Retrieve all products from a specified category (cat)'''
+        join_query = self.session.query(Category).all()
+        for e in join_query:
+            print(e.category_name, e.product.product_url)
