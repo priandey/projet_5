@@ -23,6 +23,12 @@ class SessionManager():
         '''return a list of entry from queried mapped object'''
         return self.session.query(queried)
 
+    def cat_to_prod(self,category):
+        result = []
+        for entry in self.query(ProductCategory).join(Category).filter(Category.category_name==category.category_name):
+            for entrance in self.query(Product).filter(Product.product_url==entry.product_url):
+                result.append(entrance)
+        return result
     def commit_cache(self, cache):
         '''Upload cache-loaded content to db'''
         if cache.assert_cache:

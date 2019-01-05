@@ -1,28 +1,41 @@
 import os
 from .assets import asset
+from .entities import Product, Category, UserHistory
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
 class ChoiceMenu():
     ''' '''
-    def __init__(self, to_choose):
+    def __init__(self, to_choose, first_panel=False):
+        self.type_object = to_choose[0]
         self.full_choice = self.get_list_from_query(to_choose) # Must be an ordered Query object
+        self.first_panel = first_panel
         self.list_size = 15
         self.initial_position = 0
         self.final_position = 15
         self.temp_choice = self.full_choice[self.initial_position:self.final_position]
         self.page_indicator = round((self.initial_position/self.list_size)+1)
         self.page_total = round(len(self.full_choice)/self.list_size)
+        self.chosen_result = ''
 
     def __repr__(self):
         print(asset.banner)
         output_str = str()
         choice_list = self.temp_choice
         for line in choice_list:
-             output_str += "{}. {}\n".format(choice_list.index(line),line)
-        output_str += "\nPage {}/{}           (A/P = 1 | Q/M = 10 | W/N = 100)\n".format(self.page_indicator, self.page_total)
-        output_str += "\nPick a choice (0 -> {}) or navigate (<-A P->) : ".format(len(choice_list)-1)
+             output_str += "    {}. {}\n".format(choice_list.index(line),line)
+        output_str += "\n   Page {}/{}           (A/P = 1 | Q/M = 10 | W/N = 100)\n".format(self.page_indicator, self.page_total)
+        if not self.first_panel:
+            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->) or exit (E): ".format(len(choice_list)-1)
+        else:
+            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->): ".format(len(choice_list)-1)
         return output_str
+
+    def refresh_attr(self):
+        '''Refresh object attribute'''
+        self.temp_choice = self.full_choice[self.initial_position:self.final_position]
+        self.page_indicator = round((self.initial_position/self.list_size)+1)
+        self.page_total = round(len(self.full_choice)/self.list_size)
 
     def get_list_from_query(self, to_choose):
         result = []
@@ -31,30 +44,27 @@ class ChoiceMenu():
         return result
 
     def navigate_list(self):
-        condition = False
-        while not condition:
+        stop_loop = False
+        while not stop_loop:
             cls()
             command = input(self)
             if command.isdigit():
                 command = int(command)
-                condition = self.hande_digit_result(command)
+                stop_loop = self.handle_digit_result(command)
             elif command.isalpha():
-                if command.capitalize() in ['A', 'P', 'Q', 'M', 'W', 'N']:
-                    self.handle_alpha_result(command.capitalize())
+                if command.capitalize() in ['A', 'P', 'Q', 'M', 'W', 'N', 'E']:
+                    stop_loop = self.turn_page(command.capitalize())
                 else:
                     continue
             else:
                 continue
 
-    def hande_digit_result(self, digit):
+    def handle_digit_result(self, digit):
         if digit < len(self.temp_choice):
-            print("in range")
+            self.chosen_result = self.temp_choice[digit]
             return True
-        else:
-            print("not in range")
-            return False
 
-    def handle_alpha_result(self, alpha):
+    def turn_page(self, alpha):
         if alpha == 'A':
             if self.initial_position-self.list_size >= 0:
                 self.initial_position -= self.list_size
@@ -79,6 +89,9 @@ class ChoiceMenu():
             if self.final_position+(self.list_size*100) <= self.page_total*self.list_size:
                 self.initial_position += self.list_size*100
                 self.final_position += self.list_size*100
-        self.temp_choice = self.full_choice[self.initial_position:self.final_position]
-        self.page_indicator = round((self.initial_position/self.list_size)+1)
-        self.page_total = round(len(self.full_choice)/self.list_size)
+        if alpha == "E":
+            if not self.first_panel:
+                return True
+            else:
+                pass
+        self.refresh_attr()

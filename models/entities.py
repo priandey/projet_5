@@ -31,7 +31,8 @@ class ProductCategory(Base):
 
     product = relationship('Product', back_populates='category')
     category = relationship('Category', back_populates='product')
-
+    def __repr__(self):
+        return self.product_url
 
 class UserHistory(Base):
     '''Mapped class of table user_history'''

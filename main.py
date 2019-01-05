@@ -1,4 +1,5 @@
 from models import *
+import os
 
 def main():
     database = SessionManager()
@@ -7,9 +8,11 @@ def main():
     #cache = CacheManager()
     #database.commit_cache(cache)
 
-    choicemenu = ChoiceMenu(database.query(Product))
-    choicemenu.navigate_list()
+    category_menu = ChoiceMenu(database.query(Category), first_panel=True)
+    category_menu.navigate_list()
+    product_menu = ChoiceMenu(database.cat_to_prod(category_menu.chosen_result))
+    product_menu.navigate_list()
     #database.products_of_cat()
 
-
-main()
+while True:
+    main()
