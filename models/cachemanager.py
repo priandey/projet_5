@@ -1,3 +1,5 @@
+'''Insure every cache-relative operation (ps : pylint made me do that)'''
+
 import json
 import os
 

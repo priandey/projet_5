@@ -1,5 +1,7 @@
-import requests
+'''Module importing json from api and putting it in cache'''
 import json
+
+import requests
 
 class ApiQuery():
     '''Class managing API queries'''
@@ -9,12 +11,12 @@ class ApiQuery():
         self.scope = scope
         self.page_size = page_size
         self.category = ['aliments-et-boissons-a-base-de-vegetaux',
-                        'boissons',
-                        'plats-prepares',
-                        'produits-laitiers',
-                        'snacks-sucres',
-                        'viandes'
-                        ]
+                         'boissons',
+                         'plats-prepares',
+                         'produits-laitiers',
+                         'snacks-sucres',
+                         'viandes'
+                         ]
         self.payload = {'action':'process',
                         'tagtype_0':'languages',
                         'tag_contains_0':'contains',
@@ -35,13 +37,13 @@ class ApiQuery():
             self.payload['tag_1'] = category
             self.page = 1
             while self.page <= self.scope:
-                print("Requesting page {} ({} entries) of cat:{}".format(self.page, self.page_size, category))
+                print("Requesting page {} ({} entries) of cat:{}".\
+                                                        format(self.page, self.page_size, category))
                 raw_output = requests.get(self.api_link, params=self.payload)
                 json_output = raw_output.json()
 
-
                 with open(output_file.format(category, str(self.page)), "w") as file:
                     json.dump(json_output, file)
-                    
+
                 self.page += 1
                 print("Request output dumped in file")

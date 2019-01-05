@@ -1,3 +1,5 @@
+'''Interface between DB and program. Uses sqlalchemy session.'''
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .entities import Product, Category, ProductCategory, UserHistory
@@ -23,12 +25,15 @@ class SessionManager():
         '''return a list of entry from queried mapped object'''
         return self.session.query(queried)
 
-    def cat_to_prod(self,category):
+    def cat_to_prod(self, category):
+        '''for a Category object, retrieve all Product object related'''
         result = []
-        for entry in self.query(ProductCategory).join(Category).filter(Category.category_name==category.category_name):
-            for entrance in self.query(Product).filter(Product.product_url==entry.product_url):
+        for entry in self.query(ProductCategory).join(Category).\
+                                           filter(Category.category_name == category.category_name):
+            for entrance in self.query(Product).filter(Product.product_url == entry.product_url):
                 result.append(entrance)
         return result
+
     def commit_cache(self, cache):
         '''Upload cache-loaded content to db'''
         if cache.assert_cache:
@@ -39,7 +44,7 @@ class SessionManager():
                 for entry in product_file['products']:
                     if entry in appended_product:
                         continue
-                    else :
+                    else:
                         appended_product.append(entry)
                     try:
                         product = Product(product_name=entry['product_name'],
@@ -48,11 +53,12 @@ class SessionManager():
                                           )
                         self.append(product)
 
-                        category = entry['categories_hierarchy'][0][3:].replace("-", " ").capitalize()
+                        category = entry['categories_hierarchy'][0][3:].replace("-", " ").\
+                                                                                        capitalize()
 
                         product_category = ProductCategory(product_url=entry['url'],
-                                                       category_name=category
-                                                       )
+                                                           category_name=category
+                                                           )
                         self.append(product_category)
                         if category not in all_category:
                             all_category.append(category)
@@ -68,9 +74,3 @@ class SessionManager():
 
         else:
             print('No file in cache, please download data')
-
-    def products_of_cat(self):
-        '''Retrieve all products from a specified category (cat)'''
-        join_query = self.session.query(Category).all()
-        for e in join_query:
-            print(e.category_name, e.product.product_url)
