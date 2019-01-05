@@ -42,11 +42,10 @@ class SessionManager():
                                           )
                         self.append(product)
 
-                        category = entry['categories_hierarchy'][0][3:].replace("-", " ")
+                        category = entry['categories_hierarchy'][0][3:].replace("-", " ").capitalize()
 
                         product_category = ProductCategory(product_url=entry['url'],
                                                        category_name=category
-                                                       .capitalize()
                                                        )
                         self.append(product_category)
                         if category not in all_category:
