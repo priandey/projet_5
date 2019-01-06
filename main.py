@@ -1,6 +1,5 @@
 from models import *
 import sys
-import os
 
 def main(sysarg=''):
     database = SessionManager()
@@ -12,21 +11,26 @@ def main(sysarg=''):
         query.get_query()
         database.commit_cache(cache)
     #Printing first menu
-    #Printing menu of Category
-    category_menu = ChoiceMenu(database.query(Category), first_panel=True)
-    category_menu.navigate_list()
-    #Printing menu of products
-    product_menu = ChoiceMenu(database.cat_to_prod(category_menu.chosen_result))
-    product_menu.navigate_list()
-    #If user wish to go back to menu category, skipping substitute phase
-    if not isinstance(product_menu.chosen_result, str):
-        to_sub = Substitute(product_menu.chosen_result, database)
-        to_sub.search_substitute()
-        to_sub.print_substitute_menu()
-    os.system('pause')
+    first_menu = ChoiceMenu(['Chercher un produit', 'Parcourir mon historique de recherche'], first_panel=True)
+    if first_menu.chosen_result == 'Chercher un produit':
+        #Printing menu of Category
+        category_menu = ChoiceMenu(database.query(Category), first_panel=True)
+        #Printing menu of products
+        product_menu = ChoiceMenu(database.cat_to_prod(category_menu.chosen_result))
+        #If user wish to go back to menu category, skipping substitute phase
+        if not isinstance(product_menu.chosen_result, str):
+            to_sub = Substitute(product_menu.chosen_result, database)
+            to_sub.search_substitute()
+            to_sub.print_substitute_menu()
+    elif first_menu.chosen_result == 'Parcourir mon historique de recherche':
+        history_menu = ChoiceMenu(database.query(UserHistory))
+        if not isinstance(history_menu.chosen_result, str):
+            page = Substitute.substitute_from_userhistory(history_menu.chosen_result, database)
+            page.print_substitute_menu()
 
 
 if len(sys.argv) > 1:
     main(sysarg=sys.argv[1])
-while True:
+primary_loop = True
+while primary_loop:
     main()

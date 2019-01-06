@@ -15,7 +15,7 @@ class ChoiceMenu():
         self.page_indicator = round((self.initial_position/self.list_size)+1)
         self.page_total = round(len(self.full_choice)/self.list_size)
         self.chosen_result = ''
-
+        self.navigate_list()
     def __repr__(self):
         print(ASSET.banner_2)
         output_str = str()
@@ -25,7 +25,7 @@ class ChoiceMenu():
         output_str += "\n   Page {}/{}           (A/P = 1 | Q/M = 10 | W/N = 100)\n".\
                                                         format(self.page_indicator, self.page_total)
         if not self.first_panel:
-            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->) or exit (E): ".\
+            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->) or go to main menu (E): ".\
                                                                           format(len(choice_list)-1)
         else:
             output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->): ".\

@@ -44,6 +44,7 @@ class UserHistory(Base):
     selected_product = Column(String, ForeignKey('product.product_url'))
     substitute = Column(String, ForeignKey('product.product_url'))
     created_at = Column(String, server_default="CURRENT_TIMESTAMP")
-
+    selected_product_name = relationship('Product', foreign_keys=[selected_product])
+    substitute_product_name = relationship('Product', foreign_keys=[substitute])
     def __repr__(self):
-        return f"Produit : {self.substitute} | {self.created_at}"
+        return f"{self.created_at} | {self.selected_product_name} => {self.substitute_product_name}"
