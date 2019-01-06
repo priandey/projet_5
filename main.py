@@ -23,7 +23,7 @@ def main(sysarg=''):
             to_sub.search_substitute()
             to_sub.print_substitute_menu()
     elif first_menu.chosen_result == 'Parcourir mon historique de recherche':
-        history_menu = ChoiceMenu(database.query(UserHistory))
+        history_menu = ChoiceMenu(database.query(UserHistory).order_by("created_at DESC"))
         if not isinstance(history_menu.chosen_result, str):
             page = Substitute.substitute_from_userhistory(history_menu.chosen_result, database)
             page.print_substitute_menu()

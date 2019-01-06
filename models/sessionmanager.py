@@ -3,6 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .entities import Product, Category, ProductCategory, UserHistory
+from .substitute import Substitute as s
 
 class SessionManager():
     '''Instances of this class will hold an engine and a session binded to it,
@@ -25,18 +26,19 @@ class SessionManager():
         '''return a list of entry from queried mapped object'''
         return self.session.query(queried)
 
-    def cat_to_prod(self, category, substitute=False):
+    def cat_to_prod(self, category):
         '''for a Category object, retrieve all Product object related'''
         result = []
         for entry in self.query(ProductCategory).join(Category).\
                                            filter(Category.category_name == category.category_name):
-            if not substitute:
-                for entrance in self.query(Product).filter(Product.product_url == entry.product_url):
-                    result.append(entrance)
-            else :
-                for entrance in self.query(Product).filter(Product.product_url == entry.product_url):
-                    result.append(entrance)
+            for entrance in self.query(Product).filter(Product.product_url == entry.product_url):
+                result.append(entrance)
+
+        result.sort(key=s.get_product_grade, reverse=True)
         return result
+
+    def get_nutrition_grade(self,entry):
+        return entry.nutrition_grade
 
     def commit_cache(self, cache):
         '''Upload cache-loaded content to db'''

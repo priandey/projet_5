@@ -5,7 +5,6 @@ from .entities import Product, Category, UserHistory
 class ChoiceMenu():
     ''' The user interface'''
     def __init__(self, to_choose, first_panel=False):
-        self.type_object = to_choose[0]
         self.full_choice = self.get_list_from_query(to_choose) # Must be an ordered Query object
         self.first_panel = first_panel
         self.list_size = 15
@@ -16,6 +15,7 @@ class ChoiceMenu():
         self.page_total = round(len(self.full_choice)/self.list_size)
         self.chosen_result = ''
         self.navigate_list()
+
     def __repr__(self):
         print(ASSET.banner_2)
         output_str = str()
@@ -25,10 +25,10 @@ class ChoiceMenu():
         output_str += "\n   Page {}/{}           (A/P = 1 | Q/M = 10 | W/N = 100)\n".\
                                                         format(self.page_indicator, self.page_total)
         if not self.first_panel:
-            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->) or go to main menu (E): ".\
+            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->) or go to main menu (E)\n>> ".\
                                                                           format(len(choice_list)-1)
         else:
-            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->): ".\
+            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->)\n>> ".\
                                                                           format(len(choice_list)-1)
         return output_str
 
