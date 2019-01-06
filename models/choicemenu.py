@@ -1,11 +1,6 @@
 '''This module sets-up user interface navigation logic'''
-import os
 from .assets import ASSET
 from .entities import Product, Category, UserHistory
-
-def cls():
-    '''Clear console on multiple os'''
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 class ChoiceMenu():
     ''' The user interface'''
@@ -22,7 +17,7 @@ class ChoiceMenu():
         self.chosen_result = ''
 
     def __repr__(self):
-        print(ASSET.banner)
+        print(ASSET.banner_2)
         output_str = str()
         choice_list = self.temp_choice
         for line in choice_list:
@@ -54,14 +49,14 @@ class ChoiceMenu():
         '''Main loop of the menu '''
         stop_loop = False
         while not stop_loop:
-            cls()
+            ASSET.cls()
             command = input(self)
             if command.isdigit():
                 command = int(command)
                 stop_loop = self.handle_digit_result(command)
             elif command.isalpha():
-                if command.capitalize() in ['A', 'P', 'Q', 'M', 'W', 'N', 'E']:
-                    stop_loop = self.turn_page(command.capitalize())
+                if command.upper() in ['A', 'P', 'Q', 'M', 'W', 'N', 'E']:
+                    stop_loop = self.turn_page(command.upper())
                 else:
                     continue
             else:

@@ -21,6 +21,7 @@ class Product(Base):
     product_name = Column(String)
     nutrition_grade = Column(String)
     product_url = Column(String, primary_key=True, unique=True)
+    store = Column(String)
     category = relationship('ProductCategory', back_populates='product')
     def __repr__(self):
         return self.product_name
@@ -42,3 +43,7 @@ class UserHistory(Base):
     search_id = Column(Integer, primary_key=True)
     selected_product = Column(String, ForeignKey('product.product_url'))
     substitute = Column(String, ForeignKey('product.product_url'))
+    created_at = Column(String, server_default="CURRENT_TIMESTAMP")
+
+    def __repr__(self):
+        return f"Produit : {self.substitute} | {self.created_at}"

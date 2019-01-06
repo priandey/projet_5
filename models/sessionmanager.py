@@ -25,13 +25,17 @@ class SessionManager():
         '''return a list of entry from queried mapped object'''
         return self.session.query(queried)
 
-    def cat_to_prod(self, category):
+    def cat_to_prod(self, category, substitute=False):
         '''for a Category object, retrieve all Product object related'''
         result = []
         for entry in self.query(ProductCategory).join(Category).\
                                            filter(Category.category_name == category.category_name):
-            for entrance in self.query(Product).filter(Product.product_url == entry.product_url):
-                result.append(entrance)
+            if not substitute:
+                for entrance in self.query(Product).filter(Product.product_url == entry.product_url):
+                    result.append(entrance)
+            else :
+                for entrance in self.query(Product).filter(Product.product_url == entry.product_url):
+                    result.append(entrance)
         return result
 
     def commit_cache(self, cache):
@@ -47,14 +51,17 @@ class SessionManager():
                     else:
                         appended_product.append(entry)
                     try:
+                        if entry['stores'] == '':
+                            continue
                         product = Product(product_name=entry['product_name'],
                                           nutrition_grade=entry['nutrition_grades'],
-                                          product_url=entry['url']
+                                          product_url=entry['url'],
+                                          store=entry['stores']
                                           )
                         self.append(product)
 
                         category = entry['categories_hierarchy'][0][3:].replace("-", " ").\
-                                                                                        capitalize()
+                                                                                       upper()
 
                         product_category = ProductCategory(product_url=entry['url'],
                                                            category_name=category

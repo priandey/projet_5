@@ -12,18 +12,19 @@ USE OpenFoodFacts;
 GRANT ALL ON OpenFoodFacts.* TO 'off_admin'@'%';
 
 CREATE TABLE product (
-  product_name varchar(150) NOT NULL,
-  nutrition_grade char(1) NOT NULL,
-  product_url VARCHAR(250) NOT NULL PRIMARY KEY
+  product_name VARCHAR(150) NOT NULL,
+  nutrition_grade CHAR(1) NOT NULL,
+  product_url VARCHAR(250) NOT NULL PRIMARY KEY,
+  store VARCHAR(120) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE category (
-  category_name varchar(100) NOT NULL PRIMARY KEY
+  category_name VARCHAR(100) NOT NULL PRIMARY KEY
 ) ENGINE=InnoDB;
 
 CREATE TABLE product_category(
   product_url VARCHAR(250) NOT NULL,
-  category_name varchar(100) NOT NULL,
+  category_name VARCHAR(100) NOT NULL,
   CONSTRAINT fk_product
     FOREIGN KEY (product_url)
     REFERENCES product(product_url),
