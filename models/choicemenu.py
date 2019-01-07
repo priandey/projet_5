@@ -1,6 +1,7 @@
 '''This module sets-up user interface navigation logic'''
 from .assets import ASSET
 from .entities import Product, Category, UserHistory
+from math import ceil
 
 class ChoiceMenu():
     ''' The user interface'''
@@ -11,8 +12,8 @@ class ChoiceMenu():
         self.initial_position = 0
         self.final_position = 15
         self.temp_choice = self.full_choice[self.initial_position:self.final_position]
-        self.page_indicator = round((self.initial_position/self.list_size)+1)
-        self.page_total = round(len(self.full_choice)/self.list_size)
+        self.page_indicator = ceil((self.initial_position/self.list_size)+1)
+        self.page_total = ceil(len(self.full_choice)/self.list_size)
         self.chosen_result = ''
         self.navigate_list()
 
