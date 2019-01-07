@@ -50,13 +50,13 @@ class ChoiceMenu():
         stop_loop = False
         while not stop_loop:
             ASSET.cls()
-            command = input(self)
-            if command.isdigit():
-                command = int(command)
+            interface = input(self)
+            if interface.isdigit():
+                command = int(interface)
                 stop_loop = self.handle_digit_result(command)
-            elif command.isalpha():
-                if command.upper() in ['A', 'P', 'Q', 'M', 'W', 'N', 'E']:
-                    stop_loop = self.turn_page(command.upper())
+            elif interface.isalpha():
+                if interface.upper() in ['A', 'P', 'Q', 'M', 'W', 'N', 'E']:
+                    stop_loop = self.turn_page(interface.upper())
                 else:
                     continue
             else:

@@ -1,8 +1,13 @@
 from models import *
 import sys
 
+CONFIG = {
+          'username':'off_admin',
+          'password':'goodfood'
+          }
+
 def main(sysarg=''):
-    database = SessionManager()
+    database = SessionManager(CONFIG['username'],CONFIG['password'])
     cache = CacheManager()
     if sysarg == "-commitcache":
         database.commit_cache(cache)

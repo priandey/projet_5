@@ -3,9 +3,9 @@ from .assets import ASSET
 from random import choice
 
 class Substitute():
-    def __init__(self, selected_product, session, origin='search'):
+    def __init__(self, selected_product, session, origin=''):
         self.selected_product = selected_product
-        self.substitute = []
+        self.substitute = self.selected_product
         self.session = session
         self.origin = origin
 
@@ -36,8 +36,10 @@ class Substitute():
                     all_substitute.append(product)
 
             all_substitute.sort(key=Substitute.get_product_grade)
-            final_substitute = choice(all_substitute[0:round(len(all_substitute)/3)])
+            all_substitute.remove(self.selected_product)
+            final_substitute = choice(all_substitute[0:round(len(all_substitute)/5)])
             self.substitute = final_substitute
+
 
     @classmethod
     def get_product_grade(cls, product):
@@ -46,31 +48,31 @@ class Substitute():
     def print_substitute_menu(self):
         ASSET.cls()
         print(ASSET.banner_2)
-        if self.origin == 'search':
-            print(f"\nWe found <{self.substitute.product_name}> as a substitute for <{self.selected_product.product_name}> \n"
-                  f"The nutrition grade is <{self.substitute.nutrition_grade.upper()}>"
-                  f" while original product grade was "
-                  f"<{self.selected_product.nutrition_grade.upper()}> \n"
-                  f"Buy it at {self.substitute.store}\n"
-                  f"More information at : {self.substitute.product_url}")
-            action = input("Press S to save search, or press <Enter> twice go to main menu\n>>  ")
-            if action.upper() == "S":
-                self.save_history()
-        elif self.origin == 'perfect':
+        if self.substitute.nutrition_grade >= self.selected_product.nutrition_grade:
             print(f"Congrats ! You're already eating the best product !\n"
                   f"See more details about it at {self.selected_product.product_url}\n"
                   f"Press <Enter> to leave this page"
                   )
             input()
-        elif self.origin == 'substitute' :
+        elif self.origin == 'db' :
             print(f"\nWe found <{self.substitute.product_name}> as a substitute for <{self.selected_product.product_name}> \n"
                   f"The nutrition grade is {self.substitute.nutrition_grade.upper()}"
                   f" while original product grade was "
                   f"{self.selected_product.nutrition_grade.upper()} \n"
                   f"Buy it at {self.substitute.store}\n"
                   f"More information at : {self.substitute.product_url}\n\n"
-                  "Press <Enter> once to leave this page")
+                  "Press <Enter> to leave this page")
             input()
+        else :
+            print(f"\nWe found <{self.substitute.product_name}> as a substitute for <{self.selected_product.product_name}> \n"
+                  f"The nutrition grade is <{self.substitute.nutrition_grade.upper()}>"
+                  f" while original product grade was "
+                  f"<{self.selected_product.nutrition_grade.upper()}> \n"
+                  f"Buy it at {self.substitute.store}\n"
+                  f"More information at : {self.substitute.product_url}")
+            action = input("Press S to save search, or press <Enter> to go to main menu\n>>  ")
+            if action.upper() == "S":
+                self.save_history()
 
 
     def save_history(self):

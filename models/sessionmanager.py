@@ -9,8 +9,8 @@ class SessionManager():
     '''Instances of this class will hold an engine and a session binded to it,
     it can manage adding, committing and querying db'''
 
-    def __init__(self, engine='mysql+pymysql://off_admin:goodfood@localhost/OpenFoodFacts'):
-        self.engine = create_engine(engine)
+    def __init__(self, username, password):
+        self.engine = create_engine(f'mysql+pymysql://{username}:{password}@localhost/OpenFoodFacts')
         makesession = sessionmaker(bind=self.engine)
         self.session = makesession()
 
