@@ -22,12 +22,12 @@ class ChoiceMenu():
         output_str = str()
         choice_list = self.temp_choice
         for line in choice_list:
-            output_str += "    {}. {}\n".format(choice_list.index(line), line)
+            output_str += "    {}.\t{}\n".format(choice_list.index(line), line)
         output_str += "\n   Page {}/{}           (A/P = 1 | Q/M = 10 | W/N = 100)\n".\
                                                         format(self.page_indicator, self.page_total)
         if not self.first_panel:
-            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->) or go to main menu (E)\n>> ".\
-                                                                          format(len(choice_list)-1)
+            output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->) or go "\
+                          "to main menu (E)\n>> ".format(len(choice_list)-1)
         else:
             output_str += "\n   Pick a choice (0 -> {}), navigate (<-A P->)\n>> ".\
                                                                           format(len(choice_list)-1)

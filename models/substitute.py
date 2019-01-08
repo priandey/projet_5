@@ -31,7 +31,7 @@ class Substitute():
             self.origin = 'perfect'
         else:
             for category in self.session.query(ProductCategory).join(Product).\
-                               filter(ProductCategory.product_url == self.selected_product.product_url):
+                           filter(ProductCategory.product_url == self.selected_product.product_url):
                 for product in self.session.cat_to_prod(category):
                     all_substitute.append(product)
 
