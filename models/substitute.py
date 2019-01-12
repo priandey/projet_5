@@ -54,30 +54,25 @@ class Substitute():
         ASSET.cls()
         print(ASSET.banner_2)
         if self.substitute.nutrition_grade >= self.selected_product.nutrition_grade:
-            print(f"Congrats ! You're already eating the best product !\n"
-                  f"See more details about it at {Fore.GREEN + self.selected_product.product_url}\n"
-                  f"Press <Enter> to leave this page"
-                  )
+            print(f"Congrats ! You're already eating the best product referenced in category!\n"
+                  f"See more details about it at {Fore.GREEN + self.selected_product.product_url + Fore.RESET}\n"
+                  f"Press <Enter> to leave this page")
             input()
-        elif self.origin == 'db' :
-            print(f"\nWe found <{Fore.GREEN + self.substitute.product_name + Fore.RESET}> as a substitute for <{Fore.RED + self.selected_product.product_name + Fore.RESET}> \n"
+        else:
+            print(f"\nWe found <{Fore.GREEN + self.substitute.product_name + Fore.RESET}>"
+                  f" as a substitute for <{Fore.RED + self.selected_product.product_name + Fore.RESET}> \n\n"
                   f"The nutrition grade is {Fore.GREEN + self.substitute.nutrition_grade.upper() + Fore.RESET}"
                   f" while original product grade was "
-                  f"{Fore.RED + self.selected_product.nutrition_grade.upper() + Fore.RESET} \n"
-                  f"Buy it at {Fore.GREEN + self.substitute.store + Fore.RESET}\n"
-                  f"More information at : {Fore.GREEN + self.substitute.product_url + Fore.RESET}\n\n"
-                  "Press <Enter> to leave this page")
-            input()
-        else :
-            print(f"\nWe found <{self.substitute.product_name}> as a substitute for <{self.selected_product.product_name}> \n"
-                  f"The nutrition grade is <{self.substitute.nutrition_grade.upper()}>"
-                  f" while original product grade was "
-                  f"<{self.selected_product.nutrition_grade.upper()}> \n"
-                  f"Buy it at {self.substitute.store}\n"
-                  f"More information at : {self.substitute.product_url}")
-            action = input("Press S to save search, or press <Enter> to go to main menu\n>>  ")
-            if action.upper() == "S":
-                self.save_history()
+                  f"{Fore.RED + self.selected_product.nutrition_grade.upper() + Fore.RESET} \n\n"
+                  f"Buy it at {Fore.GREEN + self.substitute.store + Fore.RESET}\n\n"
+                  f"More information at : {Fore.GREEN + self.substitute.product_url + Fore.RESET}\n\n")
+            if self.origin == "db":
+                print("Press <Enter> to leave this page")
+                input()
+            else :
+                action = input("Press S to save search, or press <Enter> to go to main menu\n>>  ")
+                if action.upper() == "S":
+                    self.save_history()
 
 
     def save_history(self):
