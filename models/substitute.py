@@ -1,6 +1,8 @@
 from .entities import Category, Product, ProductCategory, UserHistory
 from .assets import ASSET
 from random import choice
+from colorama import init, Fore, Back
+init(autoreset=True)
 
 class Substitute():
     def __init__(self, selected_product, session, origin=''):
@@ -36,9 +38,12 @@ class Substitute():
                     all_substitute.append(product)
 
             all_substitute.sort(key=Substitute.get_product_grade)
-            all_substitute.remove(self.selected_product)
-            final_substitute = choice(all_substitute[0:round(len(all_substitute)/5)])
-            self.substitute = final_substitute
+            if not len(all_substitute) ==  1:
+                all_substitute.remove(self.selected_product)
+                final_substitute = choice(all_substitute[0:round(len(all_substitute)/5)])
+                self.substitute = final_substitute
+            else :
+                self.substitute = all_substitute[0]
 
 
     @classmethod
@@ -50,17 +55,17 @@ class Substitute():
         print(ASSET.banner_2)
         if self.substitute.nutrition_grade >= self.selected_product.nutrition_grade:
             print(f"Congrats ! You're already eating the best product !\n"
-                  f"See more details about it at {self.selected_product.product_url}\n"
+                  f"See more details about it at {Fore.GREEN + self.selected_product.product_url}\n"
                   f"Press <Enter> to leave this page"
                   )
             input()
         elif self.origin == 'db' :
-            print(f"\nWe found <{self.substitute.product_name}> as a substitute for <{self.selected_product.product_name}> \n"
-                  f"The nutrition grade is {self.substitute.nutrition_grade.upper()}"
+            print(f"\nWe found <{Fore.GREEN + self.substitute.product_name + Fore.RESET}> as a substitute for <{Fore.RED + self.selected_product.product_name + Fore.RESET}> \n"
+                  f"The nutrition grade is {Fore.GREEN + self.substitute.nutrition_grade.upper() + Fore.RESET}"
                   f" while original product grade was "
-                  f"{self.selected_product.nutrition_grade.upper()} \n"
-                  f"Buy it at {self.substitute.store}\n"
-                  f"More information at : {self.substitute.product_url}\n\n"
+                  f"{Fore.RED + self.selected_product.nutrition_grade.upper() + Fore.RESET} \n"
+                  f"Buy it at {Fore.GREEN + self.substitute.store + Fore.RESET}\n"
+                  f"More information at : {Fore.GREEN + self.substitute.product_url + Fore.RESET}\n\n"
                   "Press <Enter> to leave this page")
             input()
         else :

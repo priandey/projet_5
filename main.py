@@ -9,9 +9,9 @@ CONFIG = {
 def main(loop=True, sysarg=''):
     database = SessionManager(CONFIG['username'],CONFIG['password'])
     cache = CacheManager()
-    if sysarg == "-commitcache":
+    if sysarg == "--commitcache":
         database.commit_cache(cache)
-    if sysarg == "-fill":
+    if sysarg == "--fill":
         query = ApiQuery()
         query.get_query()
         database.commit_cache(cache)

@@ -1,4 +1,4 @@
-'''Module importing json from api and putting it in cache'''
+'''Module importing json from api and saving it in cache'''
 import json
 
 import requests
@@ -32,13 +32,13 @@ class ApiQuery():
 
     def get_query(self, output_file="resources/off_{}_p{}_local_file.json"):
         '''Request the API and dump result in a file
-        Be sure to add {} in the output file name'''
+        Be sure to add 2*{} in the output file name'''
         for category in self.category:
             self.payload['tag_1'] = category
             self.page = 1
             while self.page <= self.scope:
                 print("Requesting page {} ({} entries) of cat:{}".\
-                                                        format(self.page, self.page_size, category))
+                                    format(self.page, self.page_size, category))
                 raw_output = requests.get(self.api_link, params=self.payload)
                 json_output = raw_output.json()
 
