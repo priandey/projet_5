@@ -1,13 +1,14 @@
-from models import *
+from models import SessionManager, CacheManager, ApiQuery, ChoiceMenu, Substitute, Category, UserHistory
 import sys
 
 CONFIG = {
-          'username':'off_admin',
-          'password':'goodfood'
+          'username': 'off_admin',
+          'password': 'goodfood'
           }
 
+
 def main(loop=True, sysarg=''):
-    database = SessionManager(CONFIG['username'],CONFIG['password'])
+    database = SessionManager(CONFIG['username'], CONFIG['password'])
     cache = CacheManager()
     if sysarg == "--commitcache":
         database.commit_cache(cache)
@@ -15,16 +16,16 @@ def main(loop=True, sysarg=''):
         query = ApiQuery()
         query.get_query()
         database.commit_cache(cache)
-    #Printing first menu
+    # Printing first menu
     first_menu = ChoiceMenu(['Chercher un produit', 'Parcourir mon historique de recherche', 'Exit program'], first_panel=True)
 
     if first_menu.chosen_result == 'Chercher un produit':
-        #Printing menu of Category
+        # Printing menu of Category
         category_menu = ChoiceMenu(database.query(Category), first_panel=False)
-        #Printing menu of products
+        # Printing menu of products
         if not isinstance(category_menu.chosen_result, str):
             product_menu = ChoiceMenu(database.cat_to_prod(category_menu.chosen_result))
-        #If user wish to go back to menu category, skipping substitute phase
+        # If user wish to go back to menu category, skipping substitute phase
             if not isinstance(product_menu.chosen_result, str):
                 to_sub = Substitute(product_menu.chosen_result, database)
                 to_sub.search_substitute()
@@ -38,6 +39,7 @@ def main(loop=True, sysarg=''):
     elif first_menu.chosen_result == 'Exit program':
         loop = False
     return loop
+
 
 if len(sys.argv) > 1:
     main(sysarg=sys.argv[1])

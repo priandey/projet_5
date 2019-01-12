@@ -59,8 +59,8 @@ class Substitute():
                   f"Press <Enter> to leave this page")
             input()
         else:
-            print(f"\nWe found <{Fore.GREEN + self.substitute.product_name + Fore.RESET}>"
-                  f" as a substitute for <{Fore.RED + self.selected_product.product_name + Fore.RESET}> \n\n"
+            print(f"\nWe found {Fore.GREEN + self.substitute.product_name + Fore.RESET}"
+                  f" as a substitute for {Fore.RED + self.selected_product.product_name + Fore.RESET} \n\n"
                   f"The nutrition grade is {Fore.GREEN + self.substitute.nutrition_grade.upper() + Fore.RESET}"
                   f" while original product grade was "
                   f"{Fore.RED + self.selected_product.nutrition_grade.upper() + Fore.RESET} \n\n"
