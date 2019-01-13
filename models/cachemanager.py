@@ -20,6 +20,7 @@ class CacheManager():
                 if entry.is_file():
                     if entry.name not in self.file_available:
                         self.file_available.append(entry.name)
+                        print(f'appended {entry.name} to cache')
         check = bool(self.file_available)
 
         return check
