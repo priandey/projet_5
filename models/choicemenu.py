@@ -19,7 +19,7 @@ class ChoiceMenu():
         self.navigate_list()
 
     def __repr__(self):
-        print(ASSET.banner_2)
+        print(ASSET.banner)
         output_str = str()
         choice_list = self.temp_choice
         for line in choice_list:

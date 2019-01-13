@@ -2,8 +2,9 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .entities import Product, Category, ProductCategory, UserHistory
+from .entities import Product, Category, ProductCategory
 from .substitute import Substitute as s
+
 
 class SessionManager():
     '''Instances of this class will hold an engine and a session binded to it,
@@ -30,14 +31,15 @@ class SessionManager():
         '''for a Category object, retrieve all Product object related'''
         result = []
         for entry in self.query(ProductCategory).join(Category).\
-                                           filter(Category.category_name == category.category_name):
-            for entrance in self.query(Product).filter(Product.product_url == entry.product_url):
+                filter(Category.category_name == category.category_name):
+            for entrance in self.query(Product).filter(Product.product_url
+                                                       == entry.product_url):
                 result.append(entrance)
 
         result.sort(key=s.get_product_grade, reverse=True)
         return result
 
-    def get_nutrition_grade(self,entry):
+    def get_nutrition_grade(self, entry):
         return entry.nutrition_grade
 
     def commit_cache(self, cache):
@@ -62,8 +64,8 @@ class SessionManager():
                                           )
                         self.append(product)
 
-                        category = entry['categories_hierarchy'][0][3:].replace("-", " ").\
-                                                                                       upper()
+                        category = entry['categories_hierarchy'][0][3:].\
+                            replace("-", " ").upper()
 
                         product_category = ProductCategory(product_url=entry['url'],
                                                            category_name=category
