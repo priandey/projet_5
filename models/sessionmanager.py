@@ -76,7 +76,7 @@ class SessionManager():
                     except KeyError:
                         product_incomplete += 1
                         continue
-
+                
             for entry in all_category:
                 category = Category(category_name=entry)
                 self.append(category)

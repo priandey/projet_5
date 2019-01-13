@@ -6,7 +6,7 @@ import requests
 
 class ApiQuery():
     '''Class managing API queries'''
-    def __init__(self, scope=1, page_size='1000',
+    def __init__(self, scope=1, page_size='500',
                  api_link='https://fr.openfoodfacts.org/cgi/search.pl'):
         self.page = 1
         self.scope = scope
