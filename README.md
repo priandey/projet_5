@@ -10,6 +10,10 @@ main.py --fill
 This will download the dataset and populate the database.
 
 If you have an error while populating the database, you don't have to download again the dataset, you can resolve your MySQL problem, and run the program with the `--commitcache` argument.
+
+To personnalize your API request, you can modify the `CONFIG` constant, at the beginning of `main.py`.
+You can choose **the scope** ( = How many pages by category do you need, default is 1), **the size of a page** (default is 1000 products), **the api's link** (default is fr.openfoodfacts) and the **basic categories** you want (default are 5 categories from the top of [this list](https://fr.openfoodfacts.org/categories))
+
 ## How to...
 AltR first displays an two choices, you can either find a new product to replace, or browse your search history.
 ```
