@@ -1,15 +1,25 @@
-# Compare products with AltR
+# Compare products with Alt'r
 AltR is a free command line client which provide you an easy way to find healthy alternative for everyday edible products by browsing the OpenFoodFacts database.
+## Firt utilisation
+In order to use this program, you will need [MySQL 8.0 to be installed](https://dev.mysql.com/doc/refman/8.0/en/installing.html) on your device.
+When MySQL is installed, you can now run the "create_db.sql" as root user to set-up the database of Alt'r.
+When first launching the program, be sure to use the following syntax :
+```
+main.py --fill
+```
+This will download the dataset and populate the database.
+
+If you have an error while populating the database, you don't have to download again the dataset, you can resolve your MySQL problem, and run the program with the `--commitcache` argument.
 ## How to...
 AltR first displays an two choices, you can either find a new product to replace, or browse your search history.
 ```
-1 -> Browse products
-2 -> My search history
+0 -> Chercher un produit
+1 -> Parcourir mon historique de recherche
 ```
-### 1. Browse mode
-By pressing "1" and hitting enter, you enter the "browse mode". AltR will display numerous category.
+### Browse mode
+By pressing "0" and hitting enter, you enter the "browse mode". AltR will display numerous category.
 ```
-Category :
+0. Food based products
 1. Beverages
 2. Pastry
 3. Meals
@@ -18,64 +28,63 @@ Category :
 6. Salad
 ...
 ```
-You can choose one or more, using following syntax :
+You may choose a category entering the associated number, or go back to main menu by pressing "E" :
 ```
 # Enter a unique number and press enter to browse a category
 -> 2
-# Enter mulptiples number separated by "," and press enter to refine your browsing
--> 3,4
 ```
 A list of products will be displayed :
 ```
-+----+----------------------------------------------------------------------------------------+
-| N° | Product Name                                                                           |
-+----+----------------------------------------------------------------------------------------+
-| 1  | Bouquets de mâche                                                                      |
-| 2  | Southwest Salad                                                                        |
-| 3  | New potato, tomato & egg salad                                                         |
-| 4  | Orzo Pas Ta Salad                                                                      |
-| 5  | Melon Free Salad                                                                       |
-| 6  | Oriental Salad                                                                         |  
-| 7  | Chicken and Bacon Pasta Salad                                                          |
-| 8  | Salad'bistrot la Campagnarde (Les Crudettes)                                           |
-| 9  | Salade mexicaine au thon                                                               |
-+----+----------------------------------------------------------------------------------------+
-```` 
-All you have to do is to choose your product from the list, by pressing the corresponding number and hitting enter. 
-**You can only choose one option here**
+0.  Gnocchis au chèvre et aux épinards (E)
+1.  Pizza Ristorante Quattro Formaggi (D)
+2.  Four à pierre, authentique pâte à pizza (D)
+3.  Ristorante Pizza Mozarella (D)
+4.  Pizza chèvre miel noix (D)
+5.  La Grandiosa 4 Formaggi (D)
+6.  Flammekueche (D)
+7.  Crousti Moelleuse originale 3 fromages (D)
+8.  1 Galette Complète (Œuf, Emmental, Jambon) (D)
+9.  Ristorante Pizza Speciale (D)
+...
+````
+All you have to do is to choose your product from the list, by pressing the corresponding number and hitting enter.
+**You can only choose one option**
 
 Once a product is selected, the program will give you the best alternative there is to your product, regarding the nutrition grade.
 ```
-Alternative for : Oriental Salad (Nutrition grade : E)
+We found Emincés de poulet, tagliatelles complètes et légumes façon wok as a substitute for Flammekueche
+The nutrition grade is A while original product grade was D
 
-==> Taboulé Bio (nutrition grade : B), findable at Monoprix
-Follow this link for more information on this product : https://world.openfoodfacts.org/product/3248654098609
+Buy it at Picard
 
-Would you like to save this search for later consulting ? 
-Yes(Y) or No (N)
+More information at : https://fr.openfoodfacts.org/produit/3270160726165/eminces-de-poulet-tagliatelles-completes-et-legumes-facon-wok-picard
+
+
+Press S to save search, or press <Enter> to go to main menu
 ```
-If you want to save your search, you can by pressing "y" and enter. Whatever choice you make, you will be redirected to the initial choice.
+If you want to save your search, you can by pressing "s" and enter. Whatever choice you make, you will be redirected to the initial choice.
 
-### 2. History mode
-By pressing "2" and hitting enter, you enter the "History mode". Your search history will be displayed, from the
+### History mode
+By pressing "1" and hitting enter, you enter the "History mode". Your search history will be displayed, from the
 most recent search until the oldest.
 ```
-+----+----------+-----------------------------------+----------------------------------------------+
-| N° |Date      |Product Name                       |  Substitute                                  |
-+----+----------+-----------------------------------+----------------------------------------------+
-| 1  |11-01-2018|Oriental Salad                     | Taboulé Bio                                  |
-| 2  |24-12-2017|Southwest Salad                    | Coleslaw                                     |
-| 3  |15-12-2017|New potato, tomato & egg salad     | Salade césar                                 |
+  0.  2019-01-16 07:08:49     | Flammekueche (D) => Emincés de poulet, tagliatelles complètes et légumes façon wok (A)
+   1.  2019-01-15 19:41:37     | Choucroute garnie (C) => Le Cassoulet Mitonné (A)
+   2.  2019-01-15 19:39:45     | Sushi Box Naniwa (D) => Galettes Orge & Boulghour au chèvre et miel (A)
+   3.  2019-01-15 19:39:35     | Lait Concentré Sucré (E) => Yopa (A)
+   4.  2019-01-15 19:39:27     | Chocolat Lait extra fin (E) => Pain d\'épices au sirop d\'Agave Jardin Bio (C)
+   5.  2019-01-15 19:39:20     | Ice Tea pêche (E) => Coca Cola Zero (B)```
 ```
 By entering the number and pressing enter, you will access to details about your search and the substitute.
-```
-Alternative for : Oriental Salad (Nutrition grade : E)
-Search date : 11-01-2018
 
-==> Taboulé Bio (nutrition grade : B), findable at Monoprix
-Follow this link for more information on this product : https://world.openfoodfacts.org/product/3248654098609
-
-Would you like to keep this search saved ? 
-Yes(Y) or No(N)
+### Navigate through search result
+On any page, you have the number of pages available :
 ```
-You can delete your saved search if you don't want it anymore by pressing "N" and enter, or keep it stored by pressing "Y" and enter.*
+  ...
+
+  Page 1/76            (A/P = 1 | Q/M = 10 | W/N = 100)
+```
+In order to navigate toward a page, you can either :
+- Press A (previous page) or P (next page) to navigate pages 1 by 1.
+- Press Q (previous page) or M (next page) to navigate pages 10 by 10.
+- Press W (previous page) or W (next page) to navigate pages 100 by 100.
