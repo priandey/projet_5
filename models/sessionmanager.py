@@ -5,6 +5,8 @@ from sqlalchemy.orm import sessionmaker
 from .entities import Product, Category, ProductCategory
 from .substitute import Substitute as s
 
+import os
+
 
 class SessionManager():
     '''Instances of this class will hold an engine and a session binded to it,
@@ -38,9 +40,6 @@ class SessionManager():
 
         result.sort(key=s.get_product_grade, reverse=True)
         return result
-
-    def get_nutrition_grade(self, entry):
-        return entry.nutrition_grade
 
     def commit_cache(self, cache):
         '''Upload cache-loaded content to db'''
@@ -81,7 +80,8 @@ class SessionManager():
                 category = Category(category_name=entry)
                 self.append(category)
             print("Committing to db...")
+            print(f"{product_incomplete} products not committed because of missing informations")
             self.commit()
-
+            os.system("pause")
         else:
             print('No file in cache, please download data')

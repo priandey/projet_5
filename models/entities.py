@@ -11,8 +11,7 @@ class Category(Base):
     '''Mapped class of table category'''
     __tablename__ = 'category'
     category_name = Column(String, primary_key=True)
-    product = relationship('ProductCategory',
-                           back_populates='category')
+    product = relationship('ProductCategory', back_populates='category')
 
     def __repr__(self):
         return self.category_name
@@ -25,8 +24,7 @@ class Product(Base):
     nutrition_grade = Column(String)
     product_url = Column(String, primary_key=True, unique=True)
     store = Column(String)
-    category = relationship('ProductCategory',
-                            back_populates='product')
+    category = relationship('ProductCategory', back_populates='product')
 
     def __repr__(self):
         return f'{self.product_name} ({self.nutrition_grade.upper()})'

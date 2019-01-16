@@ -1,4 +1,5 @@
-'''Insure every cache-relative operation (ps : pylint made me do that)'''
+'''Insure every cache-relative operation. The cache is a directory that contains
+the json files obtained via the api request.'''
 
 import json
 import os
@@ -12,8 +13,8 @@ class CacheManager():
 
     @property
     def assert_cache(self):
-        '''Return a tuple (True, number_of_file_in_dir)
-        if there is file in self.cache_dir ; else return False'''
+        '''Return a bool to check whether there is cache files on the device
+            All cache files are saved in self.file_available'''
 
         with os.scandir(self.cache_dir) as filelist:
             for entry in filelist:

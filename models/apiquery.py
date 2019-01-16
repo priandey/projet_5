@@ -6,18 +6,11 @@ import requests
 
 class ApiQuery():
     '''Class managing API queries'''
-    def __init__(self, scope=1, page_size='1000',
-                 api_link='https://fr.openfoodfacts.org/cgi/search.pl'):
+    def __init__(self, scope, page_size, api_link, categories):
         self.page = 1
         self.scope = scope
         self.page_size = page_size
-        self.category = ['aliments-et-boissons-a-base-de-vegetaux',
-                         'boissons',
-                         'plats-prepares',
-                         'produits-laitiers',
-                         'snacks-sucres',
-                         'viandes'
-                         ]
+        self.category = categories
         self.payload = {'action': 'process',
                         'tagtype_0': 'languages',
                         'tag_contains_0': 'contains',

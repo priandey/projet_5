@@ -4,7 +4,17 @@ import sys
 
 CONFIG = {
           'username': 'off_admin',
-          'password': 'goodfood'
+          'password': 'goodfood',
+          'api_scope' : 1,
+          'api_page_size' : '1000',
+          'api_link' : 'https://fr.openfoodfacts.org/cgi/search.pl',
+          'api_categories' : ['aliments-et-boissons-a-base-de-vegetaux',
+                              'boissons',
+                              'plats-prepares',
+                              'produits-laitiers',
+                              'snacks-sucres',
+                              'viandes'
+                              ]
           }
 
 
@@ -14,7 +24,10 @@ def main(loop=True, sysarg=''):
     if sysarg == "--commitcache":
         database.commit_cache(cache)
     if sysarg == "--fill":
-        query = ApiQuery()
+        query = ApiQuery(CONFIG['api_scope'],
+                         CONFIG['api_page_size'],
+                         CONFIG['api_link'],
+                         CONFIG['api_categories'])
         query.get_query()
         database.commit_cache(cache)
     # Printing first menu

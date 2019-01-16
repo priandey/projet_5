@@ -68,7 +68,7 @@ If you want to save your search, you can by pressing "s" and enter. Whatever cho
 By pressing "1" and hitting enter, you enter the "History mode". Your search history will be displayed, from the
 most recent search until the oldest.
 ```
-  0.  2019-01-16 07:08:49     | Flammekueche (D) => Emincés de poulet, tagliatelles complètes et légumes façon wok (A)
+   0.  2019-01-16 07:08:49     | Flammekueche (D) => Emincés de poulet, tagliatelles complètes et légumes façon wok (A)
    1.  2019-01-15 19:41:37     | Choucroute garnie (C) => Le Cassoulet Mitonné (A)
    2.  2019-01-15 19:39:45     | Sushi Box Naniwa (D) => Galettes Orge & Boulghour au chèvre et miel (A)
    3.  2019-01-15 19:39:35     | Lait Concentré Sucré (E) => Yopa (A)
