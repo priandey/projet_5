@@ -21,7 +21,7 @@ class CacheManager():
                 if entry.is_file():
                     if entry.name not in self.file_available:
                         self.file_available.append(entry.name)
-                        print(f'appended {entry.name} to cache')
+                        #print(f'appended {entry.name} to cache')
         check = bool(self.file_available)
 
         return check
@@ -36,6 +36,6 @@ class CacheManager():
                                                       as current_file:
                 output = json.load(current_file)
                 files_output.append(output)
-            print("{}{}".format(self.cache_dir, file))
+            #print("{}{}".format(self.cache_dir, file))
 
         return files_output
