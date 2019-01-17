@@ -1,24 +1,26 @@
-from models import SessionManager, CacheManager, ApiQuery, ChoiceMenu,\
-                   Substitute, Category, UserHistory
+'''Controller of Alt'r app'''
 import sys
 
-CONFIG = {
-          'username': 'off_admin',
+from models import SessionManager, CacheManager, ApiQuery, ChoiceMenu,\
+                   Substitute, Category, UserHistory
+
+CONFIG = {'username': 'off_admin',
           'password': 'goodfood',
-          'api_scope' : 1,
-          'api_page_size' : '1000',
-          'api_link' : 'https://fr.openfoodfacts.org/cgi/search.pl',
-          'api_categories' : ['aliments-et-boissons-a-base-de-vegetaux',
-                              'boissons',
-                              'plats-prepares',
-                              'produits-laitiers',
-                              'snacks-sucres',
-                              'viandes'
-                              ]
+          'api_scope': 1,
+          'api_page_size': '1000',
+          'api_link': 'https://fr.openfoodfacts.org/cgi/search.pl',
+          'api_categories': ['aliments-et-boissons-a-base-de-vegetaux',
+                             'boissons',
+                             'plats-prepares',
+                             'produits-laitiers',
+                             'snacks-sucres',
+                             'viandes'
+                             ]
           }
 
 
 def main(loop=True, sysarg=''):
+    '''main function'''
     database = SessionManager(CONFIG['username'], CONFIG['password'])
     cache = CacheManager()
     if sysarg == "--commitcache":
@@ -65,7 +67,7 @@ def main(loop=True, sysarg=''):
 if len(sys.argv) > 1:
     main(sysarg=sys.argv[1])
 
-primary_loop = True
+PRIMARY_LOOP = True
 
-while primary_loop:
-    primary_loop = main()
+while PRIMARY_LOOP:
+    PRIMARY_LOOP = main()

@@ -1,6 +1,6 @@
 # Compare products with Alt'r
 AltR is a free command line client which provide you an easy way to find healthy alternative for everyday edible products by browsing the OpenFoodFacts database.
-## Firt utilisation
+## First utilisation
 In order to use this program, you will need [MySQL 8.0 to be installed](https://dev.mysql.com/doc/refman/8.0/en/installing.html) on your device.
 When MySQL is installed, you can now run the "create_db.sql" as root user to set-up the database of Alt'r.
 When first launching the program, be sure to use the following syntax :

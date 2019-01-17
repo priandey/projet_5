@@ -59,5 +59,5 @@ class UserHistory(Base):
 
     def __repr__(self):
         return "{}\t| {} => {}".format(self.created_at,
-                                      self.selected_product_name,
-                                      self.substitute_product_name)
+                                       self.selected_product_name,
+                                       self.substitute_product_name)

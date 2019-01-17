@@ -1,11 +1,10 @@
 '''Interface between DB and program. Uses sqlalchemy session.'''
+import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .entities import Product, Category, ProductCategory
 from .substitute import Substitute as s
-
-import os
 
 
 class SessionManager():

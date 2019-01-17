@@ -1,5 +1,5 @@
-'''Insure every cache-relative operation. The cache is a directory that contains
-the json files obtained via the api request.'''
+'''Insure every cache-relative operation. The cache is a directory that
+contains the json files obtained via the api request.'''
 
 import json
 import os
