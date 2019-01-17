@@ -1,6 +1,7 @@
 '''This module sets-up user interface navigation logic'''
-from .assets import ASSET
 from math import ceil
+
+from .assets import ASSET
 
 
 class ChoiceMenu():
@@ -52,7 +53,7 @@ class ChoiceMenu():
         '''Main loop of the menu '''
         stop_loop = False
         while not stop_loop:
-            ASSET.cls()
+            ASSET.clear()
             interface = input(self)
             if interface.isdigit():
                 command = int(interface)
@@ -77,30 +78,30 @@ class ChoiceMenu():
             if self.initial_position-self.list_size >= 0:
                 self.initial_position -= self.list_size
                 self.final_position -= self.list_size
-        if alpha == 'P':
+        elif alpha == 'P':
             if self.final_position+self.list_size <= self.page_total * \
                                                                 self.list_size:
                 self.initial_position += self.list_size
                 self.final_position += self.list_size
-        if alpha == 'Q':
+        elif alpha == 'Q':
             if self.initial_position-(self.list_size*10) >= 0:
                 self.initial_position -= self.list_size*10
                 self.final_position -= self.list_size*10
-        if alpha == 'M':
+        elif alpha == 'M':
             if self.final_position+(self.list_size*10) <= self.page_total * \
                                                                 self.list_size:
                 self.initial_position += self.list_size*10
                 self.final_position += self.list_size*10
-        if alpha == 'W':
+        elif alpha == 'W':
             if self.initial_position-(self.list_size*100) >= 0:
                 self.initial_position -= self.list_size*100
                 self.final_position -= self.list_size*100
-        if alpha == 'N':
+        elif alpha == 'N':
             if self.final_position+(self.list_size*100) <= self.page_total * \
                                                                 self.list_size:
                 self.initial_position += self.list_size*100
                 self.final_position += self.list_size*100
-        if alpha == "E":
+        elif alpha == "E":
             if not self.first_panel:
                 return True
         self.refresh_attr()
